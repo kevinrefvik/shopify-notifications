@@ -1,0 +1,39 @@
+Anmodning om udfyldelse af ordre for {{ shop_name }}
+<p>{{ service_name }},</p>
+<br>
+<p>Venligst udfyld ordre {{ name }}.</p>
+<p>Total antal produkter: {{ fulfillment.item_count }}</p>
+<p>Unikke produkter: {{ fulfillment.fulfillment_line_items.size }}</p>
+<br>
+<p><strong>Produkter til levering:</strong></p>
+{% for line in fulfillment.fulfillment_line_items %}
+  <p>Variant Titel: {{ line.line_item.title }}</p>
+  <p>SKU: {{ line.line_item.sku }}</p>
+  <p>Antal: {{ line.quantity }}</p>
+  <p>Gram: {{ line.line_item.grams }}</p>
+  <p>Leverandør: {{ line.line_item.vendor }}</p>
+{% endfor %}
+{% if shipping_address %}
+<br>
+<p><strong>Leveringsadresse:</strong></p>
+<p>{{ shipping_address.name }}{% if shipping_address.company %}
+  {{ shipping_address.company }}{% endif %}</p>
+<p>{{ shipping_address.address1 }}</p>
+<p>{{ shipping_address.address2 }}</p>
+<p>{{ shipping_address.city }}, {{ shipping_address.province }}</p>
+<p>{{ shipping_address.zip }}</p>
+<p>{{ shipping_address.country }}</p>
+{% if shipping_address.phone %}<p>Telefonnummer: {{ shipping_address.phone }}</p>{% endif %}
+{% endif %}
+<br>
+<p><strong>Leveringsmetode:</strong></p>
+<p>{% if shipping_method %}{{ shipping_method.title }}{% else %}Ingen{% endif %}</p>
+<br>
+<p><strong>Tracking nummer:</strong></p>
+<p>{% if fulfillment.tracking_number %}{{ fulfillment.tracking_number }}{% else %}Ingen{% endif %}</p>
+<br>
+<p><strong>Kundens e-mail:</strong></p>
+<p>{{ email }}</p>
+<br>
+<p>På forhånd tak,</p>
+<p>{{ shop_name }}</p>

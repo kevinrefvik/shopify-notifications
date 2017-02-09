@@ -1,0 +1,32 @@
+[{{shop_name}}] Ordre {{ name }} af {{ billing_address.name }}{% if has_high_risks? %} (Risiko for bedrageri){% endif %}
+<p>Hej {{ shop_name }},</p>
+<p></p>
+<p>{% if customer.name %}{{ customer.name }}{% else %}Nogen{% endif %} har placeret en ny ordre i din webshop, {{ date | date: "%b %d %I:%M%p" }}:</p>
+<p></p>
+<ul>  {% for line in line_items %} <li> <img src="{{ line | img_url: 'thumb' }}" /> {{ line.quantity }}x {{ line.title }} {% if line.sku != "" %}(SKU: {{line.sku}}){% endif %} á {{ line.price | money }} pr. stk. </li> {% endfor %} </ul>
+<a href="https://{{ shop.permanent_domain }}/admin/orders/{{ id }}">Vis ordre {{order_name}} </a>
+{% if fulfillment_aborted %}
+<p>Ovennævnte ordre blev ikke automatisk opfyldt, fordi den er blevet markeret som mistænkelig.</p>{% endif %}
+<p></p><br>
+{% if has_high_risks? %}<p><b>Sikkerhedskontrol:</b></p>
+<p>Denne ordre har en risiko for at være bedrageri. Gennemgå ordren i din webshops adminiatrtion og kontakt kunden for at kontrollere deres oplysninger.</p>
+<p></p>{% endif %}
+<p><b>Betalingsmetode:</b></p>
+<p>{{ gateway }}</p>
+<p></p>
+{% if requires_shipping and shipping_address %}
+<p><b>Leveringsmetode:</b></p>
+{% for shipping_method in shipping_methods %}<p>{{ shipping_method.title }}</p>{% endfor %}
+<p></p>
+<p><b>Leveringsadresse:</b></p>
+<p>{{ shipping_address.name }}</p>
+<p>{{ shipping_address.street }}</p>
+<p>{{ shipping_address.city }}, {{ shipping_address.province }}  {{ shipping_address.zip }}</p>
+<p>{{ shipping_address.country }}</p>
+<p>{{ shipping_address.phone }}{% endif %}</p>
+<p></p>
+
+{% if shopify_shipping_enabled %}
+<p>Spar tid og penge med <a href="{{ fulfillment_url }}">Shopify Shipping</a></p>
+<p></p>
+{% endif %}

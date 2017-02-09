@@ -1,0 +1,4 @@
+Ordre {{ name }}
+<p>{{ shop_name }},</p>
+
+<p>{{ customer.name | default: "En kunde" }} har placeret en ny ordre i dag ({{ date | date: "%b %d %I:%M%p" }}).</p>
